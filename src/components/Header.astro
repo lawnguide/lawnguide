@@ -1,0 +1,37 @@
+---
+const navItems = [
+  { href: '/', label: 'Home' },
+  { href: '/category/lawn-care', label: 'Lawn Care' },
+  { href: '/category/lawn-renovation', label: 'Renovation' },
+  { href: '/category/product-reviews', label: 'Reviews' },
+  { href: '/about', label: 'About' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="border-b border-forest-200/60 bg-cream-50/85 backdrop-blur-sm sticky top-0 z-50">
+  <div class="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
+    <a href="/" class="font-serif text-2xl font-medium text-forest-800 tracking-tight hover:opacity-80 transition-opacity">
+      The Lawn Guide
+    </a>
+
+    <nav class="hidden md:flex items-center gap-8">
+      {navItems.map((item) => {
+        const isActive = currentPath === item.href;
+        const linkClass = isActive
+          ? "text-sm font-medium text-forest-800 transition-colors"
+          : "text-sm font-medium text-ink-500 hover:text-forest-700 transition-colors";
+        return <a href={item.href} class={linkClass}>{item.label}</a>;
+      })}
+    </nav>
+
+    <button class="md:hidden text-forest-800" aria-label="Menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="3" y1="6" x2="21" y2="6" />
+        <line x1="3" y1="12" x2="21" y2="12" />
+        <line x1="3" y1="18" x2="21" y2="18" />
+      </svg>
+    </button>
+  </div>
+</header>

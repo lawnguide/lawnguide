@@ -1,0 +1,63 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  article: CollectionEntry<'articles'>;
+  featured?: boolean;
+}
+
+const { article, featured = false } = Astro.props;
+const { title, description, pubDate, category, heroImage } = article.data;
+
+const categoryLabels: Record<string, string> = {
+  'lawn-care': 'Lawn Care',
+  'lawn-renovation': 'Renovation',
+  'product-reviews': 'Reviews',
+  'seasonal': 'Seasonal',
+  'problems-fixes': 'Problems & Fixes',
+};
+
+const formattedDate = pubDate.toLocaleDateString('en-GB', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const articleClass = featured ? "h-full md:col-span-2" : "h-full";
+const imageWrapperClass = featured
+  ? "overflow-hidden rounded-lg mb-5 bg-forest-100 aspect-[16/9]"
+  : "overflow-hidden rounded-lg mb-5 bg-forest-100 aspect-[4/3]";
+const titleClass = featured
+  ? "font-serif text-3xl text-forest-800 leading-snug mb-2 group-hover:text-forest-900 transition-colors tracking-tight"
+  : "font-serif text-xl text-forest-800 leading-snug mb-2 group-hover:text-forest-900 transition-colors tracking-tight";
+---
+
+<a href={`/${article.id}`} class="group block">
+  <article class={articleClass}>
+    {heroImage && (
+      <div class={imageWrapperClass}>
+        <img
+          src={heroImage}
+          alt={title}
+          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+        />
+      </div>
+    )}
+
+    <div class="text-xs uppercase tracking-widest text-terracotta-600 font-medium mb-2">
+      {categoryLabels[category]}
+    </div>
+
+    <h3 class={titleClass}>
+      {title}
+    </h3>
+
+    <p class="text-ink-500 text-sm leading-relaxed mb-3 line-clamp-2">
+      {description}
+    </p>
+
+    <time datetime={pubDate.toISOString()} class="text-xs text-ink-300 uppercase tracking-wider">
+      {formattedDate}
+    </time>
+  </article>
+</a>

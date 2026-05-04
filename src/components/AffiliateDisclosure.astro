@@ -1,0 +1,19 @@
+---
+interface Props {
+  variant?: 'inline' | 'box';
+}
+
+const { variant = 'box' } = Astro.props;
+---
+
+{variant === 'box' ? (
+  <aside class="my-8 p-5 bg-cream-200/60 border-l-3 border-terracotta-500 rounded-r-md">
+    <p class="text-sm text-ink-700 leading-relaxed m-0">
+      <strong class="text-forest-800">A note on links:</strong> some links in this article are affiliate links. If you buy through them, I earn a small commission at no extra cost to you. I only recommend products I'd use on my own lawn. <a href="/affiliate-disclosure" class="text-terracotta-600 hover:text-terracotta-700 underline">More on how this works.</a>
+    </p>
+  </aside>
+) : (
+  <p class="text-xs text-ink-500 italic mt-2 mb-4">
+    This article contains affiliate links. <a href="/affiliate-disclosure" class="text-terracotta-600 underline">Learn more.</a>
+  </p>
+)}

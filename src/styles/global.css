@@ -1,0 +1,113 @@
+@import "tailwindcss";
+
+@theme {
+  --color-forest-50: #f3f7f4;
+  --color-forest-100: #dde7df;
+  --color-forest-200: #b9cfbf;
+  --color-forest-300: #8eb097;
+  --color-forest-400: #678e72;
+  --color-forest-500: #4a7256;
+  --color-forest-600: #385a43;
+  --color-forest-700: #2c4736;
+  --color-forest-800: #1f3329;
+  --color-forest-900: #16241d;
+
+  --color-cream-50: #fdfbf5;
+  --color-cream-100: #faf6ec;
+  --color-cream-200: #f3ecd8;
+  --color-cream-300: #e8dcb8;
+
+  --color-terracotta-500: #b85c38;
+  --color-terracotta-600: #9d4a2c;
+  --color-terracotta-700: #7d3a23;
+
+  --color-ink-900: #1a1a1a;
+  --color-ink-700: #2d2d2d;
+  --color-ink-500: #5a5a5a;
+  --color-ink-300: #9a9a9a;
+
+  --font-serif: 'Fraunces', ui-serif, Georgia, serif;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  font-family: var(--font-sans);
+  color: var(--color-ink-700);
+  background: var(--color-cream-100);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  color: var(--color-forest-800);
+  letter-spacing: -0.01em;
+  font-weight: 500;
+}
+
+::selection {
+  background: var(--color-forest-200);
+  color: var(--color-forest-900);
+}
+
+.prose {
+  max-width: 68ch;
+  font-size: 1.0625rem;
+  line-height: 1.7;
+}
+
+.prose h2 {
+  font-size: 1.875rem;
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+  letter-spacing: -0.015em;
+}
+
+.prose h3 {
+  font-size: 1.4rem;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.prose p {
+  margin-bottom: 1.5rem;
+}
+
+.prose ul, .prose ol {
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+}
+
+.prose ul { list-style: disc; }
+.prose ol { list-style: decimal; }
+
+.prose li {
+  margin-bottom: 0.5rem;
+}
+
+.prose blockquote {
+  border-left: 3px solid var(--color-forest-300);
+  padding-left: 1.25rem;
+  margin: 2rem 0;
+  font-style: italic;
+  color: var(--color-ink-700);
+}
+
+.prose img {
+  border-radius: 0.5rem;
+  margin: 2rem 0;
+}
+
+.prose a {
+  color: var(--color-terracotta-600);
+  border-bottom: 1px solid currentColor;
+  transition: color 150ms ease;
+}
+
+.prose a:hover {
+  color: var(--color-terracotta-700);
+}
+
+.prose strong {
+  color: var(--color-forest-800);
+  font-weight: 600;
+}
