@@ -5,11 +5,11 @@ import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
   const categories = [
-    { slug: 'lawn-care', label: 'Lawn Care', description: 'Mowing, feeding, watering — the routine that keeps a lawn alive.' },
-    { slug: 'lawn-renovation', label: 'Lawn Renovation', description: 'Scarifying, aerating, overseeding, top-dressing — fixing what years of neglect did.' },
-    { slug: 'product-reviews', label: 'Product Reviews', description: 'Honest reviews of UK lawn care kit. Tested, not theorised.' },
+    { slug: 'guides', label: 'Guides', description: 'Comprehensive how-to coverage of the most important UK lawn care topics.' },
+    { slug: 'renovation', label: 'Renovation', description: 'Scarifying, aerating, overseeding, top-dressing — fixing what years of neglect did.' },
+    { slug: 'reviews', label: 'Reviews', description: 'Honest reviews of UK lawn care kit. Tested, not theorised.' },
     { slug: 'seasonal', label: 'Seasonal Guides', description: 'What to do in your lawn this month. Tied to British weather, not American climate.' },
-    { slug: 'problems-fixes', label: 'Problems & Fixes', description: 'Diagnose and fix the things that go wrong with British lawns.' },
+    { slug: 'problems', label: 'Problems & Fixes', description: 'Diagnose and fix the things that go wrong with British lawns.' },
   ];
 
   return categories.map(cat => ({
@@ -31,7 +31,6 @@ const articles = (await getCollection('articles', ({ data }) =>
   description={categoryDescription}
 >
   <section class="max-w-4xl mx-auto px-6 pt-16 pb-12">
-    <p class="text-xs uppercase tracking-widest text-terracotta-600 font-medium mb-5">Category</p>
     <h1 class="font-serif text-4xl md:text-6xl text-forest-900 leading-tight tracking-tight mb-6">
       {categoryLabel}
     </h1>

@@ -1,22 +1,33 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import ArticleCard from '@components/ArticleCard.astro';
+import ArticleRow from '@components/ArticleRow.astro';
+import CategoryGrid from '@components/CategoryGrid.astro';
 import { getCollection } from 'astro:content';
 
-const articles = (await getCollection('articles', ({ data }) => !data.draft))
+const allArticles = (await getCollection('articles', ({ data }) => !data.draft))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
-const [featured, ...rest] = articles;
+const [featured, ...rest] = allArticles;
+
+const recentArticles = rest
+  .filter(a => a.data.category !== 'reviews')
+  .slice(0, 6);
+
+const buyerGuides = allArticles
+  .filter(a => a.data.category === 'reviews')
+  .slice(0, 3);
+
+const featuredPillar = allArticles
+  .filter(a => a.data.category === 'guides' || a.data.category === 'renovation' || a.data.category === 'seasonal')
+  .find(a => a.id !== featured?.id);
 ---
 
 <BaseLayout
   title="The Lawn Guide — Honest Lawn Care Advice for British Gardens"
-  description="Practical, tested advice on UK lawn care, renovation, and the kit that actually works. From a real gardener with a real lawn."
+  description="Practical, tested advice on UK lawn care, renovation, and the kit that actually works. Real reviews, month-by-month guides, no nonsense."
 >
-  <section class="max-w-4xl mx-auto px-6 pt-16 md:pt-24 pb-16 text-center">
-    <p class="text-xs uppercase tracking-widest text-terracotta-600 font-medium mb-6">
-      Est. 2026 · UK
-    </p>
+  <section class="max-w-4xl mx-auto px-6 pt-16 md:pt-24 pb-12 text-center">
     <h1 class="font-serif text-5xl md:text-7xl text-forest-900 leading-[1.05] mb-8 tracking-tight">
       The lawn guide for people who actually <em class="italic">use</em> their garden.
     </h1>
@@ -25,44 +36,96 @@ const [featured, ...rest] = articles;
     </p>
   </section>
 
-  {articles.length > 0 ? (
-    <section class="max-w-6xl mx-auto px-6 pb-24">
-      <div class="flex items-baseline justify-between mb-10">
-        <h2 class="font-serif text-3xl text-forest-800 tracking-tight">Latest</h2>
-        <a href="/articles" class="text-sm text-terracotta-600 hover:text-terracotta-700">All articles →</a>
+  {featured && (
+    <section class="max-w-6xl mx-auto px-6 py-12 border-t border-forest-200/40">
+      <div class="text-xs uppercase tracking-widest text-terracotta-600 font-medium mb-8">
+        Latest
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-12">
-        {featured && <ArticleCard article={featured} featured={true} />}
-        {rest.map(article => <ArticleCard article={article} />)}
-      </div>
-    </section>
-  ) : (
-    <section class="max-w-2xl mx-auto px-6 pb-24 text-center">
-      <p class="text-ink-500 italic font-serif text-lg">First articles coming soon.</p>
+      <ArticleCard article={featured} featured={true} />
     </section>
   )}
 
-  <section class="bg-forest-50 py-20 px-6 border-y border-forest-200/60">
+  {recentArticles.length > 0 && (
+    <section class="max-w-6xl mx-auto px-6 py-12">
+      <div class="flex items-baseline justify-between mb-10">
+        <h2 class="font-serif text-3xl md:text-4xl text-forest-900 tracking-tight">More from the guide</h2>
+        <a href="/articles" class="text-sm text-terracotta-600 hover:text-terracotta-700 transition-colors">All articles →</a>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
+        {recentArticles.map(article => <ArticleRow article={article} />)}
+      </div>
+    </section>
+  )}
+
+  {featuredPillar && (
+    <section class="bg-forest-50 py-20 px-6 border-y border-forest-200/40 my-12">
+      <div class="max-w-4xl mx-auto">
+        <div class="text-xs uppercase tracking-widest text-terracotta-600 font-medium mb-4 text-center">
+          The Comprehensive Guide
+        </div>
+        <h2 class="font-serif text-3xl md:text-5xl text-forest-900 leading-tight tracking-tight mb-6 text-center">
+          {featuredPillar.data.title}
+        </h2>
+        <p class="text-lg md:text-xl text-ink-700 font-serif italic text-center max-w-2xl mx-auto mb-8">
+          {featuredPillar.data.description}
+        </p>
+        <div class="text-center">
+          <a href={`/${featuredPillar.id.split('/').pop()}`} class="inline-block px-8 py-3 bg-forest-700 text-cream-50 rounded-md font-medium hover:bg-forest-800 transition-colors text-sm uppercase tracking-wider">
+            Read the Guide
+          </a>
+        </div>
+      </div>
+    </section>
+  )}
+
+  {buyerGuides.length > 0 && (
+    <section class="max-w-6xl mx-auto px-6 py-12">
+      <div class="flex items-baseline justify-between mb-10">
+        <div>
+          <h2 class="font-serif text-3xl md:text-4xl text-forest-900 tracking-tight mb-2">
+            What we'd buy
+          </h2>
+          <p class="text-ink-500 text-sm">
+            Honest reviews of UK lawn care kit, tested rather than theorised.
+          </p>
+        </div>
+        <a href="/category/reviews" class="text-sm text-terracotta-600 hover:text-terracotta-700 transition-colors hidden md:block">All reviews →</a>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-12">
+        {buyerGuides.map(article => <ArticleRow article={article} />)}
+      </div>
+    </section>
+  )}
+
+  <CategoryGrid />
+
+  <section class="bg-forest-900 py-20 px-6 border-t border-forest-700">
     <div class="max-w-2xl mx-auto text-center">
-      <h2 class="font-serif text-3xl md:text-4xl text-forest-900 mb-4 tracking-tight">
+      <p class="text-xs uppercase tracking-widest text-terracotta-300 font-medium mb-4">
+        The Newsletter
+      </p>
+      <h2 class="font-serif text-3xl md:text-4xl text-white mb-4 tracking-tight">
         The monthly lawn job list.
       </h2>
-      <p class="text-ink-700 mb-8 leading-relaxed">
-        One email a month telling you exactly what to do in your lawn this month. No spam, no nonsense, unsubscribe whenever.
+      <p class="text-cream-100/80 mb-8 leading-relaxed">
+        One email a month telling you what to do in your lawn this month. Tied to British weather, not American climate. No spam, no nonsense, unsubscribe whenever.
       </p>
       <form class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
         <input
           type="email"
           placeholder="your@email.com"
-          class="flex-1 px-4 py-3 rounded-md border border-forest-300 bg-cream-50 text-ink-900 placeholder:text-ink-300 focus:outline-none focus:ring-2 focus:ring-forest-400"
+          class="flex-1 px-4 py-3 rounded-md border border-forest-700 bg-forest-800/50 text-cream-50 placeholder:text-cream-100/50 focus:outline-none focus:ring-2 focus:ring-terracotta-500"
         />
         <button
           type="submit"
-          class="px-6 py-3 bg-forest-700 text-cream-50 rounded-md font-medium hover:bg-forest-800 transition-colors"
+          class="px-6 py-3 bg-terracotta-600 text-cream-50 rounded-md font-medium hover:bg-terracotta-700 transition-colors"
         >
           Subscribe
         </button>
       </form>
+      <p class="text-xs text-cream-100/50 mt-4">
+        Free, monthly, no nonsense. Unsubscribe with one click.
+      </p>
     </div>
   </section>
 </BaseLayout>

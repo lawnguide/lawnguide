@@ -3,15 +3,17 @@ const year = new Date().getFullYear();
 
 const footerLinks = {
   Site: [
+    { href: '/', label: 'Home' },
+    { href: '/articles', label: 'All Articles' },
     { href: '/about', label: 'About' },
     { href: '/contact', label: 'Contact' },
-    { href: '/newsletter', label: 'Newsletter' },
   ],
   Categories: [
-    { href: '/category/lawn-care', label: 'Lawn Care' },
-    { href: '/category/lawn-renovation', label: 'Renovation' },
-    { href: '/category/product-reviews', label: 'Product Reviews' },
-    { href: '/category/seasonal', label: 'Seasonal Guides' },
+    { href: '/category/guides', label: 'Guides' },
+    { href: '/category/renovation', label: 'Renovation' },
+    { href: '/category/reviews', label: 'Reviews' },
+    { href: '/category/seasonal', label: 'Seasonal' },
+    { href: '/category/problems', label: 'Problems' },
   ],
   Legal: [
     { href: '/affiliate-disclosure', label: 'Affiliate Disclosure' },
@@ -21,7 +23,7 @@ const footerLinks = {
 };
 ---
 
-<footer class="border-t border-forest-200/60 bg-forest-800 text-cream-100 mt-24">
+<footer class="bg-forest-800 text-cream-100">
   <div class="max-w-6xl mx-auto px-6 py-16">
     <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
       <div class="col-span-2 md:col-span-1">
@@ -37,7 +39,7 @@ const footerLinks = {
             {title}
           </h4>
           <ul class="space-y-2">
-            {links.map(link => (
+            {links.map((link) => (
               <li>
                 <a href={link.href} class="text-sm text-cream-100 hover:text-cream-50 transition-colors">
                   {link.label}
@@ -51,7 +53,7 @@ const footerLinks = {
 
     <div class="pt-8 border-t border-cream-100/10 flex flex-col md:flex-row justify-between gap-4 text-xs text-cream-200/60">
       <p>© {year} The Lawn Guide. All rights reserved.</p>
-      <p>Made in the UK. Watered weekly.</p>
+      <p>Independent UK editorial publication.</p>
     </div>
   </div>
 </footer>

@@ -1,0 +1,60 @@
+---
+const categories = [
+  {
+    slug: 'guides',
+    label: 'Guides',
+    description: 'Complete how-to coverage',
+    accent: 'bg-forest-700',
+  },
+  {
+    slug: 'renovation',
+    label: 'Renovation',
+    description: 'Scarifying, aerating, overseeding',
+    accent: 'bg-forest-900',
+  },
+  {
+    slug: 'reviews',
+    label: 'Reviews',
+    description: 'Tested kit for UK lawns',
+    accent: 'bg-terracotta-700',
+  },
+  {
+    slug: 'seasonal',
+    label: 'Seasonal',
+    description: 'Month-by-month UK timing',
+    accent: 'bg-forest-800',
+  },
+  {
+    slug: 'problems',
+    label: 'Problems',
+    description: 'Diagnose what has gone wrong',
+    accent: 'bg-ink-900',
+  },
+];
+---
+
+<section class="max-w-6xl mx-auto px-6 py-16 md:py-20">
+  <div class="flex items-baseline justify-between mb-10">
+    <h2 class="font-serif text-3xl md:text-4xl text-forest-900 tracking-tight">Browse by topic</h2>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+    {categories.map((cat) => {
+      const linkClass = `${cat.accent} rounded-lg p-8 hover:opacity-90 transition-opacity group flex flex-col justify-between min-h-[180px]`;
+      return (
+        <a href={`/category/${cat.slug}`} class={linkClass}>
+          <h3 class="font-serif text-2xl tracking-tight text-white mb-2 font-semibold">
+            {cat.label}
+          </h3>
+          <div>
+            <p class="text-sm text-white/90 mb-4 leading-relaxed">
+              {cat.description}
+            </p>
+            <span class="text-xs uppercase tracking-widest font-medium text-white/95 group-hover:text-white transition-colors">
+              Explore →
+            </span>
+          </div>
+        </a>
+      );
+    })}
+  </div>
+</section>

@@ -9,14 +9,13 @@ const articles = defineCollection({
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
     category: z.enum([
-      'lawn-care',
-      'lawn-renovation',
-      'product-reviews',
+      'guides',
+      'renovation',
+      'reviews',
       'seasonal',
-      'problems-fixes',
+      'problems',
     ]),
     heroImage: z.string().optional(),
-    author: z.string().default('James Harrower'),
     draft: z.boolean().default(false),
   }),
 });

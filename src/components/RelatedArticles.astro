@@ -1,0 +1,76 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
+
+interface Props {
+  currentArticle: CollectionEntry<'articles'>;
+  limit?: number;
+}
+
+const { currentArticle, limit = 3 } = Astro.props;
+
+const allArticles = await getCollection('articles', ({ data }) => !data.draft);
+
+// Score articles by relevance: same category gets +3, otherwise just chronological
+const related = allArticles
+  .filter(a => a.id !== currentArticle.id)
+  .map(article => ({
+    article,
+    score:
+      (article.data.category === currentArticle.data.category ? 3 : 0) +
+      (article.data.pubDate.valueOf() / 1e10), // tiny tiebreaker by recency
+  }))
+  .sort((a, b) => b.score - a.score)
+  .slice(0, limit)
+  .map(({ article }) => article);
+
+const categoryLabels: Record<string, string> = {
+  'guides': 'Guides',
+  'renovation': 'Renovation',
+  'reviews': 'Reviews',
+  'seasonal': 'Seasonal',
+  'problems': 'Problems',
+};
+---
+
+{related.length > 0 && (
+  <section class="mt-16 pt-12 border-t border-forest-200/60">
+    <div class="text-xs uppercase tracking-widest text-terracotta-600 font-medium mb-8">
+      Keep reading
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-10">
+      {related.map((article) => {
+        const slug = article.id.split('/').pop();
+        const formattedDate = article.data.pubDate.toLocaleDateString('en-GB', {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric',
+        });
+        return (
+          <a href={`/${slug}`} class="group block">
+            <article>
+              {article.data.heroImage && (
+                <div class="aspect-[4/3] overflow-hidden rounded-md mb-3 bg-forest-100">
+                  <img
+                    src={article.data.heroImage}
+                    alt={article.data.title}
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                </div>
+              )}
+              <div class="text-xs uppercase tracking-widest text-terracotta-600 font-medium mb-2">
+                {categoryLabels[article.data.category]}
+              </div>
+              <h3 class="font-serif text-lg text-forest-800 leading-snug mb-2 group-hover:text-forest-900 transition-colors tracking-tight">
+                {article.data.title}
+              </h3>
+              <time datetime={article.data.pubDate.toISOString()} class="text-xs text-ink-300 uppercase tracking-wider">
+                {formattedDate}
+              </time>
+            </article>
+          </a>
+        );
+      })}
+    </div>
+  </section>
+)}

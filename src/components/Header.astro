@@ -1,24 +1,24 @@
 ---
 const navItems = [
-  { href: '/', label: 'Home' },
-  { href: '/category/lawn-care', label: 'Lawn Care' },
-  { href: '/category/lawn-renovation', label: 'Renovation' },
-  { href: '/category/product-reviews', label: 'Reviews' },
-  { href: '/about', label: 'About' },
+  { href: '/category/guides', label: 'Guides' },
+  { href: '/category/renovation', label: 'Renovation' },
+  { href: '/category/reviews', label: 'Reviews' },
+  { href: '/category/seasonal', label: 'Seasonal' },
+  { href: '/category/problems', label: 'Problems' },
 ];
 
 const currentPath = Astro.url.pathname;
 ---
 
-<header class="border-b border-forest-200/60 bg-cream-50/85 backdrop-blur-sm sticky top-0 z-50">
+<header class="border-b border-forest-200/60 bg-cream-50/95 backdrop-blur-sm sticky top-0 z-50">
   <div class="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
     <a href="/" class="font-serif text-2xl font-medium text-forest-800 tracking-tight hover:opacity-80 transition-opacity">
       The Lawn Guide
     </a>
 
-    <nav class="hidden md:flex items-center gap-8">
+    <nav class="hidden lg:flex items-center gap-7">
       {navItems.map((item) => {
-        const isActive = currentPath === item.href;
+        const isActive = currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href));
         const linkClass = isActive
           ? "text-sm font-medium text-forest-800 transition-colors"
           : "text-sm font-medium text-ink-500 hover:text-forest-700 transition-colors";
@@ -26,12 +26,50 @@ const currentPath = Astro.url.pathname;
       })}
     </nav>
 
-    <button class="md:hidden text-forest-800" aria-label="Menu">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <button
+      id="mobile-menu-button"
+      class="lg:hidden text-forest-800 p-2 -mr-2"
+      aria-label="Toggle menu"
+      aria-expanded="false"
+    >
+      <svg id="menu-icon-open" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <line x1="3" y1="6" x2="21" y2="6" />
         <line x1="3" y1="12" x2="21" y2="12" />
         <line x1="3" y1="18" x2="21" y2="18" />
       </svg>
+      <svg id="menu-icon-close" class="hidden" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="6" y1="6" x2="18" y2="18" />
+        <line x1="6" y1="18" x2="18" y2="6" />
+      </svg>
     </button>
   </div>
+
+  <div id="mobile-menu" class="hidden lg:hidden border-t border-forest-200/60 bg-cream-50">
+    <nav class="max-w-6xl mx-auto px-6 py-4 flex flex-col gap-1">
+      {navItems.map((item) => {
+        const isActive = currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href));
+        const linkClass = isActive
+          ? "py-2 text-base font-medium text-forest-800"
+          : "py-2 text-base font-medium text-ink-500 hover:text-forest-700 transition-colors";
+        return <a href={item.href} class={linkClass}>{item.label}</a>;
+      })}
+    </nav>
+  </div>
 </header>
+
+<script>
+  const button = document.getElementById('mobile-menu-button');
+  const menu = document.getElementById('mobile-menu');
+  const iconOpen = document.getElementById('menu-icon-open');
+  const iconClose = document.getElementById('menu-icon-close');
+
+  if (button && menu && iconOpen && iconClose) {
+    button.addEventListener('click', () => {
+      const isOpen = !menu.classList.contains('hidden');
+      menu.classList.toggle('hidden');
+      iconOpen.classList.toggle('hidden');
+      iconClose.classList.toggle('hidden');
+      button.setAttribute('aria-expanded', String(!isOpen));
+    });
+  }
+</script>
