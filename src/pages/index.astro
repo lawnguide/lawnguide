@@ -110,9 +110,11 @@ const featuredPillar = allArticles
       <p class="text-cream-100/80 mb-8 leading-relaxed">
         One email a month telling you what to do in your lawn this month. Tied to British weather, not American climate. No spam, no nonsense, unsubscribe whenever.
       </p>
-      <form class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+      <form action="/api/subscribe" method="POST" class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
         <input
           type="email"
+          name="email"
+          required
           placeholder="your@email.com"
           class="flex-1 px-4 py-3 rounded-md border border-forest-700 bg-forest-800/50 text-cream-50 placeholder:text-cream-100/50 focus:outline-none focus:ring-2 focus:ring-terracotta-500"
         />

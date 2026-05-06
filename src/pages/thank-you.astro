@@ -1,0 +1,52 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Thanks for subscribing | The Lawn Guide"
+  description="You're on the list for The Lawn Guide newsletter."
+>
+  <article class="max-w-2xl mx-auto px-6 py-20 md:py-32 text-center">
+    <p class="text-xs uppercase tracking-widest text-terracotta-600 font-medium mb-6">
+      You're in
+    </p>
+    <h1 class="font-serif text-5xl md:text-6xl text-forest-900 leading-tight tracking-tight mb-8">
+      Thanks for subscribing.
+    </h1>
+    <p class="text-xl text-ink-700 leading-relaxed mb-10 font-serif italic">
+      Check your inbox for a welcome email. The first lawn job list arrives at the start of next month.
+    </p>
+
+    <div class="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+      <a href="/" class="inline-block px-6 py-3 bg-forest-700 text-cream-50 rounded-md font-medium hover:bg-forest-800 transition-colors text-sm uppercase tracking-wider">
+        Back to homepage
+      </a>
+      <a href="/articles" class="inline-block px-6 py-3 bg-cream-200 text-forest-800 rounded-md font-medium hover:bg-cream-300 transition-colors text-sm uppercase tracking-wider">
+        Browse articles
+      </a>
+    </div>
+
+    <div class="pt-12 border-t border-forest-200/40 text-left">
+      <p class="text-sm text-ink-500 italic mb-4">
+        While you wait for the first newsletter, three popular places to start:
+      </p>
+      <ul class="space-y-2">
+        <li>
+          <a href="/uk-lawn-renovation-guide" class="text-terracotta-600 hover:text-terracotta-700 transition-colors text-sm">
+            → The complete UK lawn renovation guide
+          </a>
+        </li>
+        <li>
+          <a href="/spring-lawn-care-uk" class="text-terracotta-600 hover:text-terracotta-700 transition-colors text-sm">
+            → Spring lawn care month-by-month
+          </a>
+        </li>
+        <li>
+          <a href="/every-uk-lawn-problem" class="text-terracotta-600 hover:text-terracotta-700 transition-colors text-sm">
+            → Every common UK lawn problem
+          </a>
+        </li>
+      </ul>
+    </div>
+  </article>
+</BaseLayout>
